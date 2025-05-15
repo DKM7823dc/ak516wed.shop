@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI-Powered Stock Selection | Make Informed Investment Decisions</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5D5CDE;
+            --secondary-color: #FF6B35;
+            --accent-color: #00C2CB;
+            --text-color: #333333;
+            --light-bg: #FFFFFF;
+            --dark-bg: #181818;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            padding-bottom: 100px; /* Increased padding to make room for floating button */
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(93, 92, 222, 0.1) 0%, rgba(255, 107, 53, 0.05) 100%);
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(93, 92, 222, 0.2);
+        }
+
+        .cta-button {
+            background: var(--secondary-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            background: #ff5a20;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .floating-button {
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 0 rgba(255, 107, 53, 0.4);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(255, 107, 53, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 107, 53, 0);
+            }
+        }
+
+        .whatsapp-icon {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #25D366;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: breath 2s infinite ease-in-out;
+        }
+
+        @keyframes breath {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+                transform: translateY(-50%) scale(1);
+            }
+            50% {
+                box-shadow: 0 0 20px 10px rgba(37, 211, 102, 0.5);
+                transform: translateY(-50%) scale(1.05);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+                transform: translateY(-50%) scale(1);
+            }
+        }
+
+        .whatsapp-icon:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #FF6B35;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial {
+            transition: all 0.3s ease;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark {
+            background-color: var(--dark-bg);
+            color: #f3f4f6;
+        }
+
+        .dark .card {
+            background-color: #242424;
+            color: #f3f4f6;
+        }
+
+        .dark .testimonial {
+            background-color: #242424;
+            color: #f3f4f6;
+        }
+
+        .advantage-item {
+            transition: all 0.3s ease;
+        }
+
+        .advantage-item:hover {
+            transform: translateX(5px);
+        }
+
+        /* Fixed floating button styles */
+        .floating-btn-container {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 9999;
+            padding: 0 10px;
+            width: 100%;
+        }
+
+        .floating-btn-container button {
+            display: inline-block;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        @media (max-width: 768px) {
+            .floating-btn-container {
+                bottom: 15px;
+            }
+            
+            .floating-btn-container button {
+                font-size: 16px;
+                padding: 12px 15px;
+                width: 95%;
+            }
+            
+            /* Ensure WhatsApp icon is visible on mobile */
+            .whatsapp-icon {
+                width: 50px;
+                height: 50px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Check for dark mode -->
+    <script>
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        function opensite() {
+            window.open('https://api.whatsapp.com/send?phone=YOUR_PHONE_NUMBER&text=I%20want%20to%20learn%20more%20about%20AI%20stock%20selection', '_blank');
+        }
+    </script>
+
+    <!-- WhatsApp Icon -->
+    <div class="whatsapp-icon" onclick="opensite()">
+        <i class="fab fa-whatsapp text-white text-3xl"></i>
+        <div class="notification-badge">1</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="w-full py-12 md:py-20 hero-gradient">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-800 dark:text-white leading-tight">
+                        Technology Empowered, <span class="text-primary-600 text-indigo-600">Intelligent Stock Selection</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6">
+                        Say goodbye to blindly picking stocks with low efficiency! Powered by millions of data points and deep learning algorithms, our AI captures market dynamics in real-time, precisely screening potential stocks to make your investment decisions more scientific and efficient!
+                    </p>
+                    <button onclick="opensite()" class="cta-button text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg">
+                        Free Trial <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <img src="img/a.jpg" alt="AI Stock Selection Platform" class="rounded-xl shadow-2xl w-full object-cover transform hover:scale-105 transition duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points Section -->
+    <section class="w-full py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">
+                    Overcome Stock Market Challenges
+                </h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto mb-8"></div>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                    In the rapidly changing stock market environment, investors face numerous challenges. To address this issue, we've launched an AI stock selection software co-developed by multiple stock experts. This software combines deep financial knowledge with advanced deep learning algorithms to help you make more scientific investment decisions.
+                </p>
+            </div>
+
+            <div class="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8">
+                <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:w-1/3">
+                    <div class="text-indigo-600 mb-4">
+                        <i class="fas fa-chart-line text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">Market Volatility</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Rapidly changing market conditions make it difficult to stay updated and react in time.
+                    </p>
+                </div>
+
+                <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:w-1/3">
+                    <div class="text-indigo-600 mb-4">
+                        <i class="fas fa-brain text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">Information Overload</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Too much data and conflicting information makes it challenging to make clear decisions.
+                    </p>
+                </div>
+
+                <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:w-1/3">
+                    <div class="text-indigo-600 mb-4">
+                        <i class="fas fa-exclamation-triangle text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">Risk Management</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Difficulty in identifying and mitigating risks in an ever-changing market environment.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button onclick="opensite()" class="cta-button text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg">
+                    Experience Our Solution Now <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Logic Section -->
+    <section class="w-full py-16 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-800 dark:text-white">
+                        AI Stock Selection: <span class="text-indigo-600">Let the Data Speak</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                        AI utilizes machine learning to analyze historical stock price trends, macroeconomic indicators, company fundamentals, and market sentiment fluctuations to generate dynamic investment portfolios and scientifically predict individual stock potential.
+                    </p>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
+                        Intelligent Algorithms Capture Market Signals
+                    </h3>
+                    <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                        The AI model quickly identifies technical patterns (such as moving average crossovers, MACD divergences, etc.) and combines news sentiment and research report data to provide timely warnings of opportunities and risks, keeping your investment decisions one step ahead.
+                    </p>
+                    <button onclick="opensite()" class="cta-button text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg">
+                        Free Trial <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <img src="img/4.png" alt="AI Stock Selection Logic" class="rounded-xl shadow-2xl w-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Advantages -->
+    <section class="w-full py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">
+                    Core Advantages of AI Stock Selection
+                </h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto mb-8"></div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-12">
+                <div class="advantage-item flex items-start mb-6">
+                    <div class="flex-shrink-0 mr-4 text-green-500">
+                        <i class="fas fa-check-circle text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Comprehensive Market Coverage</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Covers all stocks in the market, scanning potential targets without blind spots.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="advantage-item flex items-start mb-6">
+                    <div class="flex-shrink-0 mr-4 text-green-500">
+                        <i class="fas fa-check-circle text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Dynamic Strategy Updates</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Strategies are updated dynamically to keep pace with changing market hotspots.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="advantage-item flex items-start">
+                    <div class="flex-shrink-0 mr-4 text-green-500">
+                        <i class="fas fa-check-circle text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800 dark:text-white">Multi-factor Cross-validation</h3>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Uses multiple factors for cross-validation to reduce the risk of misjudgment from a single indicator.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button onclick="opensite()" class="cta-button text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg">
+                    Start Your Free Trial Today <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="w-full py-16 bg-white dark:bg-gray-800">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">
+                    What Our Users Say
+                </h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto mb-8"></div>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                    Hear from investors who have transformed their approach to stock selection with our AI tool.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="testimonial bg-gray-50 dark:bg-gray-700 rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 flex">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        "This AI tool has completely changed how I approach stock selection. The real-time market insights and clear signals have helped me make more informed decisions."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                            M
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800 dark:text-white">Michael T.</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Experienced Investor</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial bg-gray-50 dark:bg-gray-700 rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 flex">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        "As a beginner in investing, I was overwhelmed by all the data. This AI system simplified everything and gave me confidence in my investment choices."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                            S
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800 dark:text-white">Sarah L.</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">New Investor</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial bg-gray-50 dark:bg-gray-700 rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 flex">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        "The multi-factor analysis provides insights I couldn't get elsewhere. It's like having a team of analysts working for you 24/7."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                            R
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800 dark:text-white">Robert K.</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Financial Analyst</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional at Your Fingertips -->
+    <section class="w-full py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">
+                        AI Stock Selection: <span class="text-indigo-600">Professional Expertise at Your Fingertips</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
+                        Whether you're a novice investor or an experienced professional, the AI intelligent stock selection system helps you discover market opportunities and avoid risks through quantitative models and dynamic strategies, allowing you to easily seize investment opportunities!
+                    </p>
+                    <button onclick="opensite()" class="cta-button text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg">
+                        Free Trial <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <img src="img/2.jpg" alt="AI Stock Selection Professional" class="rounded-xl shadow-2xl w-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <section class="w-full py-8 bg-gray-100 dark:bg-gray-900">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-sm text-gray-500 dark:text-gray-400 text-center">
+                <h3 class="font-bold mb-2">Disclaimer</h3>
+                <p>This platform is intended for educational and informational purposes only. The tools and resources provided are meant to assist in learning about stock market analysis and are not financial advice. Users should conduct their own research and consult with financial professionals before making investment decisions. Performance results are not guaranteed, and past performance is not indicative of future results.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating CTA Button - Fixed for mobile -->
+    <div class="floating-btn-container">
+        <button onclick="opensite()" class="floating-button cta-button text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg">
+            Get Started with AI Stock Selection Today <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+    </div>
+</body>
+</html>
